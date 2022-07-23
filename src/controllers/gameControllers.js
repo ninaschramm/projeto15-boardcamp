@@ -2,6 +2,18 @@ import connection from "../dbStrategy/postgres.js";
 import { gameSchema } from "../schemas/schemas.js";
 
 export async function getGames(req, res) {
+    const gameName = req.query.name;
+
+    if (gameName) {
+        const { rows: gameList } = await connection.query(`
+        SELECT *, categories.name as "categoryName", games.name as "name", games.id as "id" FROM games
+        JOIN categories
+        ON games."categoryId" = categories.id
+        WHERE LOWER(games.name) LIKE LOWER('${gameName}%')`)
+    
+        return res.status(200).send(gameList)
+    }
+
     const { rows: gameList } = await connection.query(`
     SELECT *, categories.name as "categoryName", games.name as "name", games.id as "id" FROM games
     JOIN categories
