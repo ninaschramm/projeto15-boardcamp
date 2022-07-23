@@ -2,16 +2,7 @@ import connection from "../dbStrategy/postgres.js";
 import { customerSchema } from "../schemas/schemas.js";
 
 export async function getCustomers(req, res) {
-    const customerCPF = req.query.cpf;
-    const customerID = req.query.id;
-
-    if (customerID) {
-        const { rows: customerList } = await connection.query(`
-        SELECT * FROM customers
-        WHERE id='${customerID}'`)
-    
-        return res.status(200).send(customerList)
-    }
+    const customerCPF = req.query.cpf;    
 
     if (customerCPF) {
         const { rows: customerList } = await connection.query(`
@@ -46,4 +37,18 @@ export async function registerCustomer(req, res) {
 
     await connection.query(`INSERT INTO customers (name, phone, cpf, birthday) VALUES ('${newCustomer.name}', '${newCustomer.phone}', '${newCustomer.cpf}', '${newCustomer.birthday}')`);
     return res.sendStatus(201)
+}
+
+export async function getCustomer(req, res) {
+    const customerID = req.params.id;
+   
+    const { rows: customerList } = await connection.query(`
+    SELECT * FROM customers
+    WHERE id='${customerID}'`)
+
+    if (customerList.length > 0) {    
+        return res.status(200).send(customerList[0])
+    }
+
+    else {return res.sendStatus(404)}
 }
