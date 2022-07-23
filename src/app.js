@@ -2,6 +2,7 @@ import express from "express";
 import cors from 'cors';
 import dotenv from 'dotenv';
 import gameRouter from "./routes/gamesRoutes.js";
+import categoriesRouter from "./routes/categoryRoutes.js";
 
 const server = express();
 
@@ -21,7 +22,7 @@ server.use(function (req, res, next) {
     next();
 });
 
-server.use(gameRouter);
+server.use(gameRouter, categoriesRouter);
 
 const PORT = process.env.PORT || 5010
 
