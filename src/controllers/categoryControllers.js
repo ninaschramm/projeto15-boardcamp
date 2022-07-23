@@ -1,11 +1,5 @@
 import connection from "../dbStrategy/postgres.js";
-import joi from "joi";
-
-const catSchema = joi.object({
-    name: joi.string().required().messages({
-        'string.empty': "O campo não pode estar em branco!",
-        'any.required': "O campo não pode estar em branco!",}),
-})
+import {catSchema} from "../schemas/schemas.js";
 
 export async function getCategories(req, res) {
     const { rows: categoriesList } = await connection.query(`SELECT * FROM categories`)
