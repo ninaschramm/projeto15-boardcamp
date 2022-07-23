@@ -1,0 +1,9 @@
+import express from 'express';
+import { getCustomers, registerCustomer } from '../controllers/customerControllers.js';
+
+const customersRouter = express.Router();
+
+customersRouter.get('/customers', getCustomers)
+customersRouter.post('/customers', registerCustomer)
+
+export default customersRouter;

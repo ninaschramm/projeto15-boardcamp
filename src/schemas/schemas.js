@@ -18,6 +18,20 @@ const gameSchema = joi.object({
     categoryId: joi.number().required(),
 })
 
+const customerSchema = joi.object({
+    name: joi.string().required().messages({
+        'string.empty': 'O campo "nome" não pode estar em branco!',
+        'any.required': 'O campo "nome" não pode estar em branco!',}),
+    phone: joi.string().min(10).max(11).required().messages({
+        'string.min': "O número de telefone deve ter entre 10 e 11 dígitos",
+        'string.max': "O número de telefone deve ter entre 10 e 11 dígitos",}),
+    cpf: joi.string().min(11).max(11).required().messages({
+        'string.min': "Digite um número de CPF válido",
+        'string.max': "Digite um número de CPF válido",}),
+    birthday: joi.date().required().messages({        
+        'any.required': 'O campo "aniversário" não pode estar em branco!'}),
+})
 
 
-export {catSchema, gameSchema}
+
+export {catSchema, gameSchema, customerSchema}
