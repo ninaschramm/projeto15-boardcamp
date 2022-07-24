@@ -52,3 +52,25 @@ export async function getCustomer(req, res) {
 
     else {return res.sendStatus(404)}
 }
+
+export async function updateCustomer(req, res) {
+    const upCustomer = req.body;
+    const id = req.params.id;
+
+    const validation = customerSchema.validate(upCustomer);
+
+    if (validation.error) {
+        console.log(validation.error.details)        
+      return res.status(400).send(`${validation.error}`)  
+    }
+
+    const { rows: verifyExistingCustomer } = await connection.query(`SELECT * FROM customers WHERE cpf='${upCustomer.cpf}'`)
+
+    if (verifyExistingCustomer.length > 0) {
+        if (verifyExistingCustomer[0].id != id)
+        return res.status(409).send(`O CPF informado já está cadastrado`)  
+    }
+
+    await connection.query(`UPDATE customers SET name='${upCustomer.name}', phone='${upCustomer.phone}', cpf='${upCustomer.cpf}', birthday='${upCustomer.birthday}' WHERE id=${id}`);
+    return res.sendStatus(200)
+}
