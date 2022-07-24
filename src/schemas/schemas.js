@@ -32,15 +32,4 @@ const customerSchema = joi.object({
         'any.required': 'O campo "aniversário" não pode estar em branco!'}),
 })
 
-const rentalsSchema = joi.object({
-    customerId: joi.number().required(),
-    gameId: joi.number().required(),
-    rentDate: joi.date().required(),
-    daysRented: joi.number().min(1).required().messages({        
-        'number.min': 'O número de dias deve ser maior que 0.'}),
-    returnDate: joi.any(),
-    originalPrice: joi.number(),
-    delayFee: joi.any(),
-})
-
-export {catSchema, gameSchema, customerSchema, rentalsSchema}
+export {catSchema, gameSchema, customerSchema}
