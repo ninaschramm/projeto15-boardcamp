@@ -107,3 +107,18 @@ export async function returnGame(req, res) {
     await connection.query(`UPDATE rentals SET "returnDate"='${returnDate}', "delayFee"=${delayFee} WHERE id=${id}`)
     res.sendStatus(200)
 }
+
+export async function deleteRent(req, res) {
+    const id = req.params.id;
+    const {rows: validateId} = await connection.query(`SELECT * FROM rentals WHERE id=${id}`)
+    if (!validateId.length > 0) {
+        return res.sendStatus(404);
+    }
+
+    if (validateId[0].returnDate == null) {
+        return res.sendStatus(400);
+    }
+
+    await connection.query(`DELETE FROM rentals WHERE id=${id}`)
+    res.sendStatus(200)
+}
