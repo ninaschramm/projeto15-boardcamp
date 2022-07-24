@@ -71,6 +71,8 @@ export async function updateCustomer(req, res) {
         return res.status(409).send(`O CPF informado já está cadastrado`)  
     }
 
-    await connection.query(`UPDATE customers SET name='${upCustomer.name}', phone='${upCustomer.phone}', cpf='${upCustomer.cpf}', birthday='${upCustomer.birthday}' WHERE id=${id}`);
+    await connection.query(`UPDATE customers 
+    SET name='${upCustomer.name}', phone='${upCustomer.phone}', cpf='${upCustomer.cpf}', birthday='${upCustomer.birthday}' 
+    WHERE id=${id}`);
     return res.sendStatus(200)
 }

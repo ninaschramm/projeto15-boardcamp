@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import gameRouter from "./routes/gamesRoutes.js";
 import categoriesRouter from "./routes/categoryRoutes.js";
 import customersRouter from "./routes/customerRoutes.js";
+import rentalsRouter from "./routes/rentalsRoutes.js";
 
 const server = express();
 
@@ -23,7 +24,7 @@ server.use(function (req, res, next) {
     next();
 });
 
-server.use(gameRouter, categoriesRouter, customersRouter);
+server.use(gameRouter, categoriesRouter, customersRouter, rentalsRouter);
 
 const PORT = process.env.PORT || 5010
 
