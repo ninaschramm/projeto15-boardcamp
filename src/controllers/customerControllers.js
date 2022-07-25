@@ -2,7 +2,17 @@ import connection from "../dbStrategy/postgres.js";
 import { customerSchema } from "../schemas/schemas.js";
 
 export async function getCustomers(req, res) {
-    const customerCPF = req.query.cpf;    
+    let limit = 1000000000;
+    let offset = 0;
+    const customerCPF = req.query.cpf;
+
+    if (req.query.limit) {
+        limit = req.query.limit
+    }
+
+    if (req.query.offset) {
+        offset = req.query.offset
+    }       
 
     if (customerCPF) {
         const { rows: customerList } = await connection.query(`
@@ -13,7 +23,7 @@ export async function getCustomers(req, res) {
     }
 
     const { rows: customerList } = await connection.query(`
-    SELECT * FROM customers`)
+    SELECT * FROM customers LIMIT ${limit} OFFSET ${offset}`)
 
     return res.status(200).send(customerList)
 }
@@ -31,7 +41,6 @@ export async function registerCustomer(req, res) {
     const { rows: verifyExistingCustomer } = await connection.query(`SELECT * FROM customers WHERE cpf='${newCustomer.cpf}'`)
 
     if (verifyExistingCustomer.length > 0) {
-        console.log(verifyExistingCustomer)
         return res.status(409).send(`O CPF informado já está cadastrado`)  
     }
 

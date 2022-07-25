@@ -70,9 +70,7 @@ export async function rentGame(req, res) {
     if (validateAvailability.length >= validateGame[0].stockTotal || daysRented <= 0) {
         return res.sendStatus(400)
     }
-
-    console.log(validateAvailability.length)
-    console.log(validateGame[0].stockTotal)
+    
     const rentDate = dayjs().format('YYYY-MM-DD')
     const originalPrice = validateGame[0].pricePerDay * daysRented;
     
